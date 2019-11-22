@@ -1,0 +1,24 @@
+apiVersion: apps/v1 
+kind: DaemonSet
+metadata:
+  name: golang-test
+spec:
+  selector:
+      matchLabels:
+        name: golang-test # Label selector that determines which Pods belong to the DaemonSet
+  template:
+    metadata:
+      labels:
+        name: golang-test # Pod template's label selector
+    spec:
+      containers:
+      - name: golang-test
+        image: rg.fr-par.scw.cloud/xxx/golang-example-web-server-k8s:1.0
+        env:
+          - name: HOSTNAME
+            valueFrom:
+              fieldRef:
+                fieldPath: spec.nodeName
+      imagePullSecrets:
+        - name: regcred
+
